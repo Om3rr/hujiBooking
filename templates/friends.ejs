@@ -1,0 +1,72 @@
+<style>
+    .todolist{
+        background-color:#FFF;
+        padding:20px 20px 10px 20px;
+        margin-top:30px;
+    }
+    .todolist h1{
+        margin:0;
+        padding-bottom:20px;
+        text-align:center;
+    }
+    .form-control{
+        border-radius:0;
+    }
+    li.ui-state-default{
+        background:#fff;
+        border:none;
+        border-bottom:1px solid #ddd;
+    }
+
+    li.ui-state-default:last-child{
+        border-bottom:none;
+    }
+
+    .todo-footer{
+        background-color:#F4FCE8;
+        margin:0 -20px -10px -20px;
+        padding: 10px 20px;
+    }
+    #done-items li{
+        padding:10px 0;
+        border-bottom:1px solid #ddd;
+    }
+    #done-items li:last-child{
+        border-bottom:none;
+    }
+    #checkAll{
+        margin-top:10px;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="todolist not-done">
+                <h1>Study with friends</h1>
+                <ul id="sortable" class="list-unstyled">
+                    <li class="ui-state-default" ng-repeat="collab in collabs">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="participants[collab]"/>{{collab}}</label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="todolist">
+                <h1>Have my permission</h1>
+                <div class="form-group">
+                    <label for="validate-text">Add a friend</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="validate-text" ng-model="newFriendName" id="validate-text" placeholder="Friend`s username" ng-keyup="$event.keyCode == 13 ? addNewFriend(newFriendName) : null">
+                        <span class="input-group-addon danger"><span class="glyphicon glyphicon-ok"></span></span>
+                    </div>
+                </div>
+                <ul id="done-items" class="list-unstyled">
+                    <li ng-repeat="friend in friends">{{friend}} <button class="remove-item btn btn-default btn-xs pull-right" ng-click="removeFriend(friend)"><span class="glyphicon glyphicon-remove"></span></button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

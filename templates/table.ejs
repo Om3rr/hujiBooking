@@ -1,0 +1,25 @@
+<div class="container">
+    <ul class="nav nav-pills nav-justified">
+        <li ng-repeat="date in dates" ng-class="{active : selected(date), disabled : datePass(date)}">
+            <a ng-click="selectDate(date)">{{date.format('DD-MM-YYYY')}}</a>
+        </li>
+    </ul>
+    <table class="table table-hover table-responsive" style="overflow-x: hidden">
+        <thead>
+        <tr>
+            <th>Slot / Room</th>
+            <th ng-repeat="room in rooms">{{room.r_name}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="timeFrame in getNumber(maxFrame)">
+            <td>{{slotAndRoomToTime(timeFrame)}}</td>
+            <td ng-repeat="room in rooms">
+                <input type="checkbox" ng-if="slotFree(room, timeFrame)" ng-click="markSlot(room, timeFrame)">
+                <span ng-if="!slotFree(room, timeFrame)">{{getUserName(room, timeFrame)}}</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <button ng-click="sendSlots()">Hello</button>
+</div>

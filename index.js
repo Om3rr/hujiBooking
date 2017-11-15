@@ -56,6 +56,10 @@ app.get('/slots', function(req,res){
     })
 });
 
+app.get('/reset', function(req,res){
+	db.run('DELETE FROM books');
+	res.send("Cool, hack worx");
+})
 
 app.post('/slot',function(req,res){
     console.log(req.body);

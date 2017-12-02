@@ -22,7 +22,7 @@ app.run(function ($rootScope) {
             room: room,
             date: date.format('YYYY-MM-DD'),
             slot: slot,
-            user: 'omer ha cool'
+            users: ['omer ha cool','ha','cool','gever','zaian']
         };
         return $http.post('/slot', params);
     };

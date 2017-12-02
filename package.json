@@ -18,7 +18,7 @@
     "md5": "*"
   },
   "engines": {
-    "node": "6.11.0"
+    "node": "6.11"
   },
   "repository": {
     "type": "git",

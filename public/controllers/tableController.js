@@ -13,8 +13,8 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
             $scope.activeDate = moment();
             $scope.marked = [];
             console.log(resp[2]);
-            $scope.collabs = resp[2].data.collabs;
-            $scope.friends = resp[2].data.friends;
+            $scope.collabs = resp[2].data.give;
+            $scope.friends = resp[2].data.take;
             $scope.participants = [];
             $scope.isLoading = false;
             $scope.$apply();
@@ -140,11 +140,12 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
     };
 
     $scope.addNewFriend = function (friendName) {
-        $scope.addFriend(friendName).then(function () {
+        $scope.addFriend(friendName).then(function (resp) {
             $scope.newFriendName = '';
-            $scope.friends.push(friendName);
+            $scope.friends.push(resp.data);
             $scope.$apply();
-        }).catch(function () {
+        }).catch(function (err) {
+            console.log(err);
             alert("Cannot add new friend...");
         });
     };

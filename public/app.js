@@ -38,10 +38,9 @@ app.run(function ($rootScope) {
 
     $rootScope.addFriend = function(friendName){
         var params = {
-            friend: friendName,
-            me: 'omer'
+            friend: friendName
         };
-        return $http.post('/friends/add', params);
+        return $http.post('/friends', params);
     }
 
 });

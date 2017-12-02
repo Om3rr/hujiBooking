@@ -7,6 +7,7 @@ var roomsHandler = require('./handlers/roomsHandler');
 var confirmHandler = require('./handlers/confirmHandler');
 var friendsHandler = require('./handlers/friendsHandler');
 var signupHandler = require('./handlers/signUpHandler');
+var userHandler = require('./handlers/userHandler');
 var mailer = require('./common/mailer');
 var app = express();
 var db = dbAdapter.db;
@@ -27,22 +28,12 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/templates');
 app.use(helmet());
-var expiryDate = new Date(Date.now() + 60 * 60 * 1000*24);
-app.use(cookieSession(
-    {
-        name: 'hujiSession',
-        keys: ['key1', 'key2'],
-        cookie: {
-            secure: true,
-            httpOnly: true,
-            domain: 'localhost:5000',
-            path: '/',
-            expires: expiryDate
-        }
-    }
-));
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/bower_components'));
+app.use('/signup', signupHandler);
+app.use('/signin', signupHandler);
+app.use('/confirm', confirmHandler);
+app.use(userHandler);
 app.get('/', function (request, response) {
     response.render("index.ejs")
 });
@@ -50,8 +41,13 @@ app.use('/friends', friendsHandler);
 app.use('/slots', slotsHandler);
 app.use('/hello', helloHandler);
 app.use('/rooms', roomsHandler);
-app.use('/confirm', confirmHandler);
-app.use('/signup', signupHandler);
+app.get('/admindb', function(req,res){
+    if(req.query['key'] === 'omeristhehardestboyever1234'){
+        res.sendFile(__dirname +"/tablesDb");
+    } else {
+        res.status(404).send();
+    }
+});
 app.get('/reset', function (req, res) {
     db.run('DELETE FROM books');
     res.send("Cool, hack worx");

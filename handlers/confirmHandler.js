@@ -9,7 +9,7 @@ router.get('/', function(req,res){
    var uName = req.query['user'];
    var uPass = hasher(req.query['pass']);
    db.all("SELECT u_reg_code, u_pass FROM users WHERE u_active = 1 AND u_mail LIKE ?", [uName]).then(function(results){
-       if(!results){
+       if(results.length === 0){
            res.status(400).send();
            return;
        }

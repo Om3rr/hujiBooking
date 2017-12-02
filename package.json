@@ -7,7 +7,7 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "express": "*",
+    "express": "^4.13.3",
     "asyncawait": "^1.0.6",
     "body-parser": "*",
     "ejs": "*",

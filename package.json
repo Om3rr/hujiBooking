@@ -7,10 +7,10 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "express": "*",
     "asyncawait": "^1.0.6",
     "body-parser": "*",
     "ejs": "*",
-    "express": "*",
     "sqlite3": "*",
     "nodemailer": "*",
     "cookie-session": "*",

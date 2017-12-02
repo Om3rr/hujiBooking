@@ -18,8 +18,8 @@
     "md5": "*"
   },
   "engines": {
-    "node": "6.11",
-    "npm" : "3.10"
+    "node": "^6.11",
+    "npm" : "^3.10"
   },
   "repository": {
     "type": "git",

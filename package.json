@@ -14,6 +14,7 @@
     "sqlite3": "*",
     "nodemailer": "*",
     "cookie-session": "*",
+    "cookie-parser": "*",
     "helmet": "*",
     "md5": "*"
   },

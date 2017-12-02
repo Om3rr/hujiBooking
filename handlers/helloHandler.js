@@ -10,7 +10,7 @@ router.get('/',function (req, res) {
             res.status(302).header({"Location": "/signup"});
             return;
         }
-        let promises = [
+        var promises = [
             db.all("SELECT u_id, u_mail, u_fullname from collab JOIN users ON c_take = u_id WHERE c_give = ?",[results[0].u_id]),
             db.all("SELECT u_id, u_mail, u_fullname from collab JOIN users ON c_give = u_id WHERE c_take = ?",[results[0].u_id])
         ];

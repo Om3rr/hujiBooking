@@ -1,16 +1,16 @@
 {
   "name": "node-js-sample",
-  "version": "6.11",
+  "version": "0.2.0",
   "description": "A sample Node.js app using Express 4",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "express": "^4.13.3",
     "asyncawait": "^1.0.6",
     "body-parser": "*",
     "ejs": "*",
+    "express": "^4.13.3",
     "sqlite3": "*",
     "nodemailer": "*",
     "cookie-session": "*",
@@ -18,8 +18,7 @@
     "md5": "*"
   },
   "engines": {
-    "node": "^6.0",
-    "npm" : "^3"
+    "node": "4.0.0"
   },
   "repository": {
     "type": "git",

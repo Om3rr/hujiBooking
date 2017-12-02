@@ -1,7 +1,7 @@
 app.controller('tableCtrl', ['$scope', function ($scope) {
     $scope.isLoading = true;
     $scope.init = function () {
-        Promise.all([$scope.getRooms(), $scope.getSlots(), $scope.helloServer('omer')]).then(function (resp) {
+        Promise.all([$scope.getRooms(), $scope.getSlots(), $scope.helloServer()]).then(function (resp) {
             $scope.rooms = resp[0].data;
             $scope.slots = resp[1].data;
             $scope.maxFrame = $scope.rooms.map(function (room) {

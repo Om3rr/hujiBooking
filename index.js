@@ -11,6 +11,7 @@ var mailer = require('./common/mailer');
 var app = express();
 var db = dbAdapter.db;
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 var helmet = require('helmet');
 var cookieSession = require('cookie-session');
 var async = require('asyncawait/async');
@@ -20,6 +21,7 @@ app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
+app.use(cookieParser());
 app.set('port', (process.env.PORT || 5000));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');

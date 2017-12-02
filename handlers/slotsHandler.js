@@ -12,10 +12,10 @@ function checkUserUsage(uId, date){
 
 
 router.post('/',function post(req,res){
-    let slot = req.body.slot;
-    let date = req.body.date;
-    let room = req.body.room;
-    let users = req.body.users;
+    var slot = req.body.slot;
+    var date = req.body.date;
+    var room = req.body.room;
+    var users = req.body.users;
     if (slot == null || date == null || room == null || users.length < constants.USERS_LIMIT_PER_ROOM) {
         res.status(404);
         res.send("?");
@@ -25,12 +25,12 @@ router.post('/',function post(req,res){
 
 router.get('/',function (req, res) {
     console.log(req.query);
-    let date = req.query.date ? req.query.date : 'now, local';
-    let q = db.all("SELECT * from books JOIN rooms ON b_room_id = r_id " +
+    var date = req.query.date ? req.query.date : 'now, local';
+    var q = db.all("SELECT * from books JOIN rooms ON b_room_id = r_id " +
         "WHERE " +
         "date(b_date) = date(?)", [date]);
     q.then(function (rows) {
-        let groups = {};
+        var groups = {};
         rows.forEach(function (row) {
             if (!groups[row.r_name]) {
                 groups[row.r_name] = [];

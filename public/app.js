@@ -4,8 +4,8 @@ $http = angular.injector(["ng"]).get("$http");
 
 app.run(function ($rootScope) {
 
-    $rootScope.helloServer = function (userName) {
-        return $http.get("/hello?username=" + encodeURI(userName));
+    $rootScope.helloServer = function () {
+        return $http.get("/hello");
     };
 
     $rootScope.getSlots = function (date) {

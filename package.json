@@ -10,7 +10,7 @@
     "asyncawait": "^1.0.6",
     "body-parser": "*",
     "ejs": "*",
-    "express": "^4.13.3",
+    "express": "*",
     "sqlite3": "*",
     "nodemailer": "*",
     "cookie-session": "*",

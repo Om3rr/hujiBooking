@@ -12,13 +12,17 @@ function checkUserUsage(uId, date){
     })
 }
 
+function checkDate(date){
+
+}
+
 
 router.post('/',function post(req,res){
     var slot = req.body.slot;
     var date = req.body.date;
     var room = req.body.room;
     var users = req.body.users;
-    if (slot == null || date == null || room == null || users.length < constants.USERS_LIMIT_PER_ROOM) {
+    if (slot == null || date == null || !dateHelper.isValidDate(date) || room == null || users.length < constants.USERS_LIMIT_PER_ROOM) {
         res.status(404);
         res.send("?");
         return;

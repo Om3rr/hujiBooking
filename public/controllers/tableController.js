@@ -1,6 +1,7 @@
 app.controller('tableCtrl', ['$scope', function ($scope) {
     $scope.isLoading = true;
     $scope.init = function () {
+        $scope.checkBoxes = {};
         Promise.all([$scope.getRooms(), $scope.getSlots(), $scope.helloServer()]).then(function (resp) {
             $scope.rooms = resp[0].data;
             $scope.slots = resp[1].data;
@@ -41,7 +42,7 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
         if (!roomSlots) {
             return true;
         }
-        return roomSlots[slot].b_user;
+        return roomSlots[slot].users;
     };
 
     $scope.slotAndRoomToTime = function (slot) {
@@ -148,6 +149,10 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
             alert("Cannot add new friend...");
         });
     };
+
+    setInterval(function(){
+        console.log($scope.checkBoxes);
+    }, 1000)
 
     $scope.init();
 }]);

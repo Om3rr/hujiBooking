@@ -17,7 +17,7 @@
                     </div>
                     <div class="tab-pane" id="regForm">
                         <form class="form-signin" name="signForm">
-                            <input type="text" pattern="^[A-Za-z0-9-_]+$" class="form-control" placeholder="CS Username" required autofocus name="user" ng-model="register.user">
+                            <input type="text" pattern="^[A-Za-z0-9-_\.]+$" class="form-control" placeholder="CS Username" required autofocus name="user" ng-model="register.user">
                             <input type="text" pattern="^[A-Za-z]+ [A-Za-z]+$" class="form-control" placeholder="Full name" required name="name" ng-model="register.name">
                             <input type="password" pattern="^[A-Za-z0-9-_]{6}[A-Za-z0-9-_]+$" class="form-control" placeholder="Password" required name="pass" ng-model="register.pass">
                             <button class="btn btn-lg btn-default btn-block" value="Sign Up" ng-click="reg()">Sign Up</button>

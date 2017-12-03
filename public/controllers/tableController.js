@@ -12,7 +12,6 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
             $scope.getThisWeekDates();
             $scope.activeDate = moment();
             $scope.marked = [];
-            console.log(resp[2]);
             $scope.collabs = resp[2].data.give;
             $scope.friends = resp[2].data.take;
             $scope.participants = [];

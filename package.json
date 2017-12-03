@@ -11,7 +11,7 @@
     "body-parser": "*",
     "ejs": "*",
     "express": "^4.13.3",
-    "sqlite3": "*",
+    "mysql": "*",
     "nodemailer": "*",
     "cookie-session": "*",
     "cookie-parser": "*",

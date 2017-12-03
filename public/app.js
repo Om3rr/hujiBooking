@@ -22,9 +22,9 @@ app.run(function ($rootScope) {
             room: room,
             date: date.format('YYYY-MM-DD'),
             slot: slot,
-            users: ['omer ha cool','ha','cool','gever','zaian']
+            users: [{u_id : 17}, {u_id : 21}]
         };
-        return $http.post('/slot', params);
+        return $http.post('/slots', params);
     };
 
     $rootScope.removeFriendAPI = function(friendName){
@@ -41,7 +41,19 @@ app.run(function ($rootScope) {
             friend: friendName
         };
         return $http.post('/friends', params);
-    }
+    };
+
+    $rootScope.loginAccount = function(params){
+        return $http({
+            url: '/confirm',
+            method: "GET",
+            params: params
+        });
+    };
+
+    $rootScope.createNewAccount = function(params){
+        return $http.post('/confirm', params);
+    };
 
 });
 

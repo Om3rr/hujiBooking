@@ -10,13 +10,13 @@ router.get('/', function(req,res){
    var uPass = hasher(req.query['pass']);
    db.all("SELECT u_reg_code, u_pass FROM users WHERE u_active = 1 AND u_mail LIKE ?", [uName]).then(function(results){
        if(results.length === 0){
-           res.status(400).send();
+           redirect(res, '', 'Cant find this user..');
            return;
        }
        if(results[0].u_pass === uPass){
            insertCookie(results[0].u_reg_code, res);
        } else {
-           res.status(400).send();
+           redirect(res, '', 'Wrong password')
        }
    })
 });
@@ -25,7 +25,7 @@ router.get('/:confirmCode', function (req, res) {
     var code = req.param('confirmCode');
     db.all('SELECT u_id FROM users where u_reg_code = ? and u_active = 0',[code]).then(function(resp){
         if(resp.length === 0){
-            res.status(404).send();
+            redirect(res);
             return;
         }
         db.run("UPDATE users SET u_active = 1 WHERE u_id = ?",[resp[0].u_id]).then(function(_r){
@@ -60,8 +60,7 @@ function userValidator(user){
 router.post('/', function(req,res){
     var userDetails = req.body;
     if(!userValidator(userDetails)){
-        res.status(400);
-        res.send("Bad details m8");
+        redirect(res,'', "Bad Params");
         return;
     }
     var confirmCode = mailer.getUid();
@@ -69,20 +68,24 @@ router.post('/', function(req,res){
     var hashedPass = hasher(userDetails.pass);
     db.all("SELECT u_id, u_reg_code FROM users WHERE u_mail = ? and u_active = 0",[mail]).then(function(results){
         if(results.length === 0){
-            db.run("INSERT OR IGNORE INTO users(`u_mail`, `u_reg_code`, `u_fullname`, `u_active`, `u_pass`) VALUES(?, ?, ?, ?, ?)", [userDetails.user, confirmCode, userDetails.name, 0, hashedPass]).then(function(results){
+            db.run("INSERT INTO users(`u_mail`, `u_reg_code`, `u_fullname`, `u_active`, `u_pass`) VALUES(?, ?, ?, ?, ?)", [userDetails.user, confirmCode, userDetails.name, 0, hashedPass]).then(function(results){
                 mailer.send(mail, confirmCode);
-                res.header({"Location" : "http://mail.huji.ac.il"}).status(302).send();
+                res.header({"Location" : "/"}).status(302).send();
             })
         } else {
             db.run("UPDATE users SET u_fullname = ?, u_pass = ? WHERE u_id = ?", [userDetails.name, hashedPass, results.u_id]);
             mailer.send(mail, results[0].u_reg_code);
-            res.status(201).send("Resent");
+            redirect(res, '', 'Confirmation mail sent');
         }
     });
 });
 
 function insertCookie(regCode, res){
     res.cookie("userCode", regCode).status(302).header({'Location' : '/'}).send();
+}
+
+function redirect(res, params, text){
+    res.status(400).send(text);
 }
 
 

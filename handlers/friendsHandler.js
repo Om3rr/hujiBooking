@@ -4,11 +4,13 @@ var dbAdapter = require('../dbAdapter.js');
 var db = dbAdapter.db;
 
 
-router.delete('/',function (req, res, next) {
-    var friendsName = req.body.friend;
-    var me = req.body.me;
-    db.run('DELETE FROM collab WHERE c_take = ? AND c_give = ?', [friendsName, me]).then(function (row) {
+router.post('/delete/:uid',function (req, res, next) {
+    var friendsId = req.param('uid');
+    var me = req.userData;
+    db.run('DELETE FROM collab WHERE c_take = ? AND c_give = ?', [friendsId, me.u_id]).then(function (row) {
         res.status(200).send("All good :D");
+    }).catch(function(){
+        res.status(400).send("Cannot delete friend..");
     });
 });
 

@@ -27,7 +27,7 @@ router.post('/',function post(req,res){
         res.send("?");
         return;
     }
-    slotValidator(date,slot,room,users,req.userData);
+    slotValidator(date,slot,room,users,req.userData,res);
 
 });
 
@@ -47,7 +47,6 @@ function isUsersCollab(take, give){
     return new Promise(function (res,err) {
         db.all("SELECT 1 from collab where c_give = ? AND c_take = ?", [give, take]).then(function(resp){
             if(resp.length === 0){
-                console.log("Collab reject");
                 err()
             } else{
                 res()
@@ -77,7 +76,7 @@ function insertNewSlot(date,slot,room,users,me){
         db.all("INSERT INTO books (b_room_id, b_date, b_slot, b_created) VALUES(?, ?, ?, NOW())",[room, date, slot]).then(function(resp){
             var promises = [];
             users.forEach(function(u){
-                promises.push(db.all("INSERT INTO user_books (u_id, b_id) VALUES (?, ?)",[u.u_id, resp.insertId]));
+                promises.push(db.all("INSERT INTO user_books (u_id, b_id) VALUES (?, ?)",[u, resp.insertId]));
             });
             promises.push(db.all("INSERT INTO user_books (u_id, b_id) VALUES (?, ?)",[me.u_id, resp.insertId]));
             Promise.all(promises).then(r).catch(s)
@@ -85,16 +84,16 @@ function insertNewSlot(date,slot,room,users,me){
     })
 }
 
-function slotValidator(date,slot,room,users,me){
+function slotValidator(date,slot,room,users,me, res){
     var promises = [];
     promises.push(slotIsFree(date,slot,room));
     users.forEach(function(u){
-        promises.push(isUserEligable(u.u_id));
-        promises.push(isUsersCollab(me.u_id, u.u_id));
+        promises.push(isUserEligable(u));
+        promises.push(isUsersCollab(me.u_id, u));
     });
     Promise.all(promises).then(function(){
         insertNewSlot(date,slot,room,users,me).then(function(resp){
-            console.log(resp)
+            res.send();
         });
     })
 }

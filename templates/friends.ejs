@@ -47,7 +47,7 @@
                     <li class="ui-state-default" ng-repeat="collab in collabs">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="participants[collab]"/>{{collab}}</label>
+                                <input type="checkbox" ng-model="participants[collab.u_id]"/>{{collab.u_fullname}} ({{collab.orders}} hours left)</label>
                         </div>
                     </li>
                 </ul>

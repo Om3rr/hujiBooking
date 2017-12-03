@@ -15,7 +15,7 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
             $scope.marked = [];
             $scope.collabs = resp[2].data.give;
             $scope.friends = resp[2].data.take;
-            $scope.participants = [];
+            $scope.participants = {};
             $scope.isLoading = false;
             $scope.$apply();
         });
@@ -87,6 +87,7 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
 
     $scope.selectDate = function (date) {
         if ($scope.datePass(date)) {
+            console.log('date pass..');
             return;
         }
         $scope.isLoading = true;
@@ -105,7 +106,7 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
         var elem = JSON.stringify({date: $scope.activeDate, room: room.r_id, slot: slot});
         var idx = $scope.marked.indexOf(elem);
         if (idx > -1) {
-            $scope.marked.splice(idx,1);
+            $scope.marked.splice(idx, 1);
         } else {
             $scope.marked.push(elem);
         }
@@ -113,27 +114,39 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
     };
 
     $scope.sendSlots = function () {
-        console.log("Sending");
-        var posts = [];
-        $scope.marked.forEach(function (mark) {
-            mark = JSON.parse(mark);
-            $scope.postSlot(mark.room, moment(mark.date), mark.slot).catch(function () {
-                alert("Something went wrong.. sorry :)");
-            });
-            posts.push('1');
-            if (posts.length === $scope.marked.length) {
-                $scope.selectDate($scope.activeDate);
-                $scope.marked = [];
-            }
+        var friends = [];
+        angular.forEach($scope.participants, function (v,k) {
+            console.log("k - "+k);
+            console.log("v - "+v);
+          if(!v){
+              return;
+          }
+          friends.push(parseInt(k));
         });
+        var mcboomy = []
+        angular.forEach($scope.checkBoxes, function (v,k) {
+            if (!v) {
+                return;
+            }
+            k = k.split(',');
+            console.log(k);
+            let date = moment(k[0]);
+            let room_id = parseInt(k[1]);
+            let slot = parseInt(k[2]);
+            mcboomy.push($scope.postSlot(room_id, date, slot, friends));
+        });
+        Promise.all(mcboomy).then(function(){
+            $scope.checkBoxes = {};
+            $scope.selectDate($scope.activeDate)
+        })
     };
 
-    $scope.removeFriend = function(friendName){
+    $scope.removeFriend = function (friendName) {
         var idx = $scope.friends.indexOf(friendName);
-        if(idx < 0){
+        if (idx < 0) {
             return;
         }
-        $scope.removeFriendAPI(friendName).then(function(){
+        $scope.removeFriendAPI(friendName).then(function () {
             $scope.friends.splice(idx, 1);
             $scope.$apply();
         })
@@ -150,9 +163,9 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
         });
     };
 
-    setInterval(function(){
-        console.log($scope.checkBoxes);
-    }, 1000)
+    setInterval(function () {
+        console.log($scope.participants);
+    }, 1000);
 
     $scope.init();
 }]);

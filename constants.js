@@ -1,4 +1,4 @@
-const HOURS_LIMIT_PER_USER = 5;
+const HOURS_LIMIT_PER_USER = 4;
 const USERS_LIMIT_PER_ROOM = 2;
 
 

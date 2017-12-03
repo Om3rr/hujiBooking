@@ -17,22 +17,18 @@ app.run(function ($rootScope) {
         return $http.get('/rooms');
     };
 
-    $rootScope.postSlot = function (room, date, slot) {
+    $rootScope.postSlot = function (room, date, slot, users) {
         var params = {
             room: room,
             date: date.format('YYYY-MM-DD'),
             slot: slot,
-            users: [{u_id : 17}, {u_id : 21}]
+            users: users
         };
         return $http.post('/slots', params);
     };
 
-    $rootScope.removeFriendAPI = function(friendName){
-        var params = {
-            friend: friendName,
-            me: 'omer'
-        };
-        return $http.post('/friends/remove', params);
+    $rootScope.removeFriendAPI = function(friend){
+        return $http.post('/friends/delete/'+friend.u_id);
     };
 
 

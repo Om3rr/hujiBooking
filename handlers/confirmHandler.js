@@ -5,7 +5,7 @@ var db = dbAdapter.db;
 var mailer = require('../common/mailer');
 var hasher = require('../common/passHasher').hash;
 
-router.get('/', function(req,res){
+router.post('/login', function(req,res){
    var uName = req.query['user'];
    var uPass = hasher(req.query['pass']);
    db.all("SELECT u_reg_code, u_pass FROM users WHERE u_active = 1 AND u_mail LIKE ?", [uName]).then(function(results){
@@ -57,7 +57,7 @@ function userValidator(user){
     return true;
 }
 
-router.post('/', function(req,res){
+router.post('/register', function(req,res){
     var userDetails = req.body;
     if(!userValidator(userDetails)){
         redirect(res,'', "Bad Params");

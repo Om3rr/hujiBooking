@@ -15,11 +15,13 @@
         <tr ng-repeat="timeFrame in getNumber(maxFrame)">
             <td>{{slotAndRoomToTime(timeFrame)}}</td>
             <td ng-repeat="room in rooms">
-                <input type="checkbox" ng-if="slotFree(room, timeFrame)" ng-model="checkBoxes[activeDate.toLocaleString() + ',' + room.r_id + ',' + timeFrame]">
+                <input ng-disabled="isSlotPassed[timeFrame]" type="checkbox" ng-if="slotFree(room, timeFrame)" ng-model="checkBoxes[activeDate.toLocaleString() + ',' + room.r_id + ',' + timeFrame]">
                 <span ng-if="!slotFree(room, timeFrame)"><span ng-repeat="user in getUserName(room, timeFrame)">{{user}}<br> </span></span>
             </td>
         </tr>
         </tbody>
     </table>
-    <button ng-click="sendSlots()">Hello</button>
+    <div class="row" style="text-align: center;">
+        <button style="margin:auto; padding: 10px 70px; " class="btn btn-primary" ng-click="sendSlots()">Submit</button>
+    </div>
 </div>

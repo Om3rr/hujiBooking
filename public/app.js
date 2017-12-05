@@ -27,28 +27,21 @@ app.run(function ($rootScope) {
         return $http.post('/slots', params);
     };
 
-    $rootScope.removeFriendAPI = function(friend){
-        return $http.post('/friends/delete/'+friend.u_id);
+    $rootScope.removeFriendAPI = function (friend) {
+        return $http.post('/friends/delete/' + friend.u_id);
     };
 
 
-    $rootScope.addFriend = function(friendName){
-        var params = {
-            friend: friendName
-        };
-        return $http.post('/friends', params);
+    $rootScope.addFriend = function (friendName) {
+        return $http.post('/friends', {friend: friendName});
     };
 
-    $rootScope.loginAccount = function(params){
-        return $http({
-            url: '/confirm',
-            method: "GET",
-            params: params
-        });
+    $rootScope.loginAccount = function (params) {
+        return $http.post('/confirm/login', params);
     };
 
-    $rootScope.createNewAccount = function(params){
-        return $http.post('/confirm', params);
+    $rootScope.createNewAccount = function (params) {
+        return $http.post('/confirm/register', params);
     };
 
 });

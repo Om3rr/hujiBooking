@@ -5,12 +5,10 @@ var db = dbAdapter.db;
 
 router.use('/', function(req,res,next){
     if(!req.cookies){
-        redirect(res);
-        return;
+        next();
     }
     if(!req.cookies.userCode){
-        redirect(res);
-        return;
+        next();
     }
     db.all("SELECT u_id, u_fullname, u_mail from users where u_reg_code = ?", [req.cookies.userCode]).then(function(results){
         req.userData = {};
@@ -18,7 +16,7 @@ router.use('/', function(req,res,next){
             req.userData = results[0];
             next();
         } else {
-            redirect(res)
+            next();
         }
     })
 });

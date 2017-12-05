@@ -86,6 +86,16 @@ router.post('/register', function(req,res){
     });
 });
 
+function verifyPassword(pass){
+    if(pass == null){
+        return false;
+    }
+    if(!new RegExp('^[A-Za-z0-9_\\-\\.\\,]{6}[A-Za-z0-9_\\-\\.\\,]*$').exec(pass)){
+        return false;
+    }
+    return true;
+}
+
 function insertCookie(regCode, res){
     res.cookie("userCode", regCode).status(302).header({'Location' : '/'}).send();
 }

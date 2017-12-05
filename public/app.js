@@ -44,6 +44,14 @@ app.run(function ($rootScope) {
         return $http.post('/confirm/register', params);
     };
 
+    $rootScope.resetApi = function (user) {
+        return $http.post('/forget/'+user);
+    };
+
+    $rootScope.forgotMyPass = function (params) {
+        return $http.post('/forget', params);
+    };
+
 });
 
 

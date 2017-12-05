@@ -34,4 +34,20 @@ var sendConfirmation = function(mail, confirmCode){
     });
 };
 
-module.exports = {send : sendConfirmation, getUid : makeid};
+var sendForgetMyPass = function(mail, confirmCode){
+    var mailOptions = {
+        from: 'hujirooms@gmail.com',
+        to: mail,
+        subject: 'Huji Rooms - Forget my password :D',
+        html: '<h1>Hello again</h1><h3>Somebody told me that you forgot your password m8.. so here it is</h3><a href="https://hujirooms.herokuapp.com/forget/reset/'+confirmCode+'">Just click here and choose a new one :D</a>'
+    };
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+};
+
+module.exports = {send : sendConfirmation, getUid : makeid, forget : sendForgetMyPass};

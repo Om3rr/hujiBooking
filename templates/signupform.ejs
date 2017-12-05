@@ -13,6 +13,7 @@
                         </form>
                         <div id="tabs" data-tabs="tabs">
                             <p class="text-center"><a href="#regForm" data-toggle="tab">Need an Account?</a></p>
+                            <p class="text-center"><a href="#forgot" data-toggle="tab" ng-if="reseted">Forgot your pass?</a></p>
                         </div>
                     </div>
                     <div class="tab-pane" id="regForm">
@@ -23,7 +24,17 @@
                             <button class="btn btn-lg btn-default btn-block" value="Sign Up" ng-click="reg()">Sign Up</button>
                         </form>
                         <div id="tabs" data-tabs="tabs">
+                            <p class="text-center"><a href="#logForm" id="haveAccount" data-toggle="tab">Have an Account?</a></p>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="forgot">
+                        <form class="form-signin" name="resetForm">
+                            <input type="text" pattern="^[A-Za-z0-9-_\.]+$" class="form-control" placeholder="CS Username" required autofocus name="user" ng-model="forgot.username">
+                            <button class="btn btn-lg btn-default btn-block" value="Sign Up" ng-click="resetPass()">Reset Password</button>
+                        </form>
+                        <div id="tabs" data-tabs="tabs">
                             <p class="text-center"><a href="#logForm" data-toggle="tab">Have an Account?</a></p>
+                            <p class="text-center"><a href="#regForm" data-toggle="tab">Need an Account?</a></p>
                         </div>
                     </div>
                 </div>

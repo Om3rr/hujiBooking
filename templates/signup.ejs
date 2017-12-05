@@ -7,11 +7,11 @@
     <%-include styles.ejs%>
     <meta charset="UTF-8">
     <title>CS room reservation</title>
+    <link rel="stylesheet" href="/css/signin.css">
 </head>
 <body>
 <div ng-controller="loginCtrl">
-    <%-include signupform.ejs%>
-    <link rel="stylesheet" href="css/signin.css">
+    <%- include(page) %>
 </div>
 </body>
 <%-include scripts.ejs%>

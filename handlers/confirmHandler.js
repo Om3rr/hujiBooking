@@ -77,7 +77,7 @@ router.post('/register', function(req,res){
             mailer.send(mail, results[0].u_reg_code);
             redirect(res, '', 'Confirmation mail sent');
         }
-    });
+    }).catch(function(){redirect(res, '', 'Something went wrong.. please tell Omer about this :D')});
 });
 
 function insertCookie(regCode, res){

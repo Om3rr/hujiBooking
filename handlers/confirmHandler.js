@@ -18,6 +18,9 @@ router.post('/login', function(req,res){
        } else {
            redirect(res, '', 'Wrong password')
        }
+   }).catch(function(err){
+       console.log("LOGIN: "+err);
+       redirect(res, '', 'Bad login thing, cannot query..');
    })
 });
 
@@ -77,7 +80,10 @@ router.post('/register', function(req,res){
             mailer.send(mail, results[0].u_reg_code);
             redirect(res, '', 'Confirmation mail sent');
         }
-    }).catch(function(){redirect(res, '', 'Something went wrong.. please tell Omer about this :D')});
+    }).catch(function(err){
+        console.log("REGISTER: "+err);
+        redirect(res, '', 'Something went wrong.. please tell Omer about this :D');
+    });
 });
 
 function insertCookie(regCode, res){

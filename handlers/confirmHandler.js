@@ -10,25 +10,28 @@ router.post('/login', function(req,res){
    var uPass = hasher(req.query['pass']);
    db.all("SELECT u_reg_code, u_pass FROM users WHERE u_active = 1 AND u_mail LIKE ?", [uName]).then(function(results){
        if(results.length === 0){
-           redirect(res, '', 'Cant find this user..');
+           sendError(res, '', 'Cant find this user..');
            return;
        }
        if(results[0].u_pass === uPass){
            insertCookie(results[0].u_reg_code, res);
        } else {
-           redirect(res, '', 'Wrong password')
+           sendError(res, '', 'Wrong password')
        }
    }).catch(function(err){
        console.log("LOGIN: "+err);
-       redirect(res, '', 'Bad login thing, cannot query..');
+       sendError(res, '', 'Bad login thing, cannot query..');
    })
 });
 
 router.get('/:confirmCode', function (req, res) {
     var code = req.param('confirmCode');
-    db.all('SELECT u_id FROM users where u_reg_code = ? and u_active = 0',[code]).then(function(resp){
+    db.all('SELECT u_id, u_active FROM users where u_reg_code = ?',[code]).then(function(resp){
         if(resp.length === 0){
-            redirect(res);
+            redirect(res,'','');
+            return;
+        } else if(resp[0].u_active === 1){
+            insertCookie(code, res);
             return;
         }
         db.run("UPDATE users SET u_active = 1 WHERE u_id = ?",[resp[0].u_id]).then(function(_r){
@@ -63,7 +66,7 @@ function userValidator(user){
 router.post('/register', function(req,res){
     var userDetails = req.body;
     if(!userValidator(userDetails)){
-        redirect(res,'', "Bad Params");
+        sendError(res,'', "Bad Params");
         return;
     }
     var confirmCode = mailer.getUid();
@@ -78,11 +81,11 @@ router.post('/register', function(req,res){
         } else {
             db.run("UPDATE users SET u_fullname = ?, u_pass = ? WHERE u_id = ?", [userDetails.name, hashedPass, results.u_id]);
             mailer.send(mail, results[0].u_reg_code);
-            redirect(res, '', 'Confirmation mail sent');
+            sendError(res, '', 'Confirmation mail sent');
         }
     }).catch(function(err){
         console.log("REGISTER: "+err);
-        redirect(res, '', 'Something went wrong.. please tell Omer about this :D');
+        sendError(res, '', 'Something went wrong.. please tell Omer about this :D');
     });
 });
 
@@ -100,8 +103,12 @@ function insertCookie(regCode, res){
     res.cookie("userCode", regCode).status(302).header({'Location' : '/'}).send();
 }
 
-function redirect(res, params, text){
+function sendError(res,params,text){
     res.status(400).send(text);
+}
+
+function redirect(res, params, text){
+    res.status(302).header({'Location' : '/signin'}).send();
 }
 
 

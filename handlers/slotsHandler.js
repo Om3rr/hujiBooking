@@ -38,7 +38,7 @@ function slotIsFree(date,slot,room){
             if(resp.length===0){
                 res()
             } else{
-                err()
+                err('This slot is already selected by another user')
             }
         })
     })

@@ -56,7 +56,7 @@ function userValidator(user){
     if(!new RegExp('^[A-Za-z0-9_\\-\\.\\,]+$').exec(user.user)){
         return false;
     }
-    if(!new RegExp('^[A-Za-z0-9_\\-\\.\\,]{6}[A-Za-z0-9_\\-\\.\\,]*$').exec(user.pass)){
+    if(!new RegExp('^(?=\\S*[^\\s])\\S{4,}$').exec(user.pass)){
         return false;
     }
 

@@ -23,7 +23,7 @@ router.post('/:user', function(req,res){
 router.get('/reset/:regcode', function(req,res){
     var regCode = req.params["regcode"];
     res.cookie("userCode", regCode);
-    res.render('signup.ejs',{page : 'forget.ejs', controller : 'loginCtrl'});
+    res.render('index.ejs',{page : 'forget.ejs', controller : 'loginCtrl'});
 });
 
 
@@ -31,7 +31,7 @@ function verifyPassword(pass){
     if(pass == null){
         return false;
     }
-    if(!new RegExp('^[A-Za-z0-9_\\-\\.\\,]{6}[A-Za-z0-9_\\-\\.\\,]*$').exec(pass)){
+    if(!new RegExp('^(?=\\S*[^\\s])\\S{4,}$').exec(pass)){
         return false;
     }
     return true;

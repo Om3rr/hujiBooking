@@ -10,7 +10,7 @@ app.run(function ($rootScope, $mdDialog) {
                 .parent(angular.element(document.querySelector('#popupContainer')))
                 .clickOutsideToClose(true)
                 .title(title)
-                .textContent(msg)
+                .content(msg)
                 .ariaLabel('Alert Alert Alert')
                 .ok('Got it!')
                 .targetEvent(ev)

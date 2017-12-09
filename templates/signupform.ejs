@@ -8,7 +8,9 @@
                              alt="">
                         <form class="form-signin" name="loginForm" id="logForm">
                             <input type="text" pattern="^[A-Za-z0-9-_]+$" name="user" class="form-control" placeholder="Username" required autofocus ng-model="signin.user">
-                            <input type="password" pattern="^[A-Za-z0-9-_]{6}[A-Za-z0-9-_]+$" name="pass" class="form-control" placeholder="Password" required ng-model="signin.pass">
+                            <label class="indicator" ng-class="{'invalid' : loginForm.user.$invalid}">Invalid Username</label>
+                            <input type="password" pattern="^(?=\S*[^\s])\S{4,}$" name="pass" class="form-control" placeholder="Password" required ng-model="signin.pass">
+                            <label class="indicator" ng-class="{'invalid' : loginForm.pass.$invalid}">Invalid Password</label>
                             <button class="btn btn-lg btn-default btn-block" value="Sign In" ng-click="sign()">Sign In</button>
                         </form>
                         <div id="tabs" data-tabs="tabs">
@@ -19,8 +21,11 @@
                     <div class="tab-pane" id="regForm">
                         <form class="form-signin" name="signForm">
                             <input type="text" pattern="^[A-Za-z0-9-_\.]+$" class="form-control" placeholder="CS Username" required autofocus name="user" ng-model="register.user">
+                            <label class="indicator" ng-class="{'invalid' : signForm.user.$invalid}">Invalid Username</label>
                             <input type="text" pattern="^[A-Za-z]+ [A-Za-z]+$" class="form-control" placeholder="Full name" required name="name" ng-model="register.name">
-                            <input type="password" pattern="^[A-Za-z0-9-_]{6}[A-Za-z0-9-_]+$" class="form-control" placeholder="Password" required name="pass" ng-model="register.pass">
+                            <label class="indicator" ng-class="{'invalid' : signForm.name.$invalid}">Invalid Full name</label>
+                            <input type="password" pattern="^(?=\S*[^\s])\S{4,}$" class="form-control" placeholder="Password" required name="pass" ng-model="register.pass">
+                            <label class="indicator" ng-class="{'invalid' : signForm.pass.$invalid}">Invalid Password</label>
                             <button class="btn btn-lg btn-default btn-block" value="Sign Up" ng-click="reg()">Sign Up</button>
                         </form>
                         <div id="tabs" data-tabs="tabs">

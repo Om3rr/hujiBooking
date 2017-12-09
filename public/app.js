@@ -1,8 +1,21 @@
 // Declare app level module which depends on views, and components
-app = angular.module('tableApp', []);
+app = angular.module('tableApp', ['ngMaterial']);
 $http = angular.injector(["ng"]).get("$http");
 
-app.run(function ($rootScope) {
+app.run(function ($rootScope, $mdDialog) {
+
+    $rootScope.errorAlert = function(title, msg, ev){
+        $mdDialog.show(
+            $mdDialog.alert()
+                .parent(angular.element(document.querySelector('#popupContainer')))
+                .clickOutsideToClose(true)
+                .title(title)
+                .textContent(msg)
+                .ariaLabel('Alert Alert Alert')
+                .ok('Got it!')
+                .targetEvent(ev)
+        );
+    };
 
     $rootScope.helloServer = function () {
         return $http.get("/hello");
@@ -17,12 +30,13 @@ app.run(function ($rootScope) {
         return $http.get('/rooms');
     };
 
-    $rootScope.postSlot = function (room, date, slot, users) {
+    $rootScope.postSlot = function (room, date, slot, users, overall) {
         var params = {
             room: room,
             date: date.format('YYYY-MM-DD'),
             slot: slot,
-            users: users
+            users: users,
+            overall : overall
         };
         return $http.post('/slots', params);
     };

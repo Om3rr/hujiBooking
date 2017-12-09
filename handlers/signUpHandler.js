@@ -7,7 +7,7 @@ router.get('/', function(req,res, next){
     if(req.userData){
         next();
     }
-    res.render("signup.ejs", {page : 'signupform'})
+    res.render("signup.ejs", {page : 'signupform', controller : 'loginCtrl'})
 });
 
 module.exports = router;

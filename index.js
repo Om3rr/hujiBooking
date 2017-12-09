@@ -42,7 +42,7 @@ app.use('/slots', slotsHandler);
 app.use('/hello', helloHandler);
 app.use('/rooms', roomsHandler);
 app.get('/', function (request, response) {
-    response.render("index.ejs")
+    response.render("index.ejs", {page : 'main.ejs', controller : 'tableCtrl'})
 });
 
 

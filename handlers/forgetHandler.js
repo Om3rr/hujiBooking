@@ -23,7 +23,7 @@ router.post('/:user', function(req,res){
 router.get('/reset/:regcode', function(req,res){
     var regCode = req.params["regcode"];
     res.cookie("userCode", regCode);
-    res.render('signup.ejs',{page : 'forget.ejs'});
+    res.render('signup.ejs',{page : 'forget.ejs', controller : 'loginCtrl'});
 });
 
 

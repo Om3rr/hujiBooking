@@ -1,10 +1,15 @@
 <div class="container">
-    <ul class="nav nav-pills nav-justified">
+    <ul class="nav nav-pills nav-justified visible-sm visible-md visible-lg">
         <li ng-repeat="date in dates" ng-class="{active : selected(date), disabled : datePass(date)}">
             <a ng-click="selectDate(date)">{{date.format('DD-MM-YYYY')}}</a>
         </li>
     </ul>
-    <table class="table table-hover table-responsive" style="overflow-x: hidden">
+    <ul class="nav nav-pills nav-justified hidden-sm visible-xs">
+        <li ng-repeat="date in beforeCurrent" ng-class="{active : selected(date), disabled : datePass(date)}">
+            <a ng-click="selectDate(date)">{{date.format('DD-MM-YYYY')}}</a>
+        </li>
+    </ul>
+    <table class="table table-hover table-responsive" style="overflow-x: hidden" id="no-more-tables">
         <thead>
         <tr>
             <th>Slot / Room</th>
@@ -13,15 +18,20 @@
         </thead>
         <tbody>
         <tr ng-repeat="timeFrame in getNumber(maxFrame)">
-            <td>{{slotAndRoomToTime(timeFrame)}}</td>
-            <td ng-repeat="room in rooms">
-                <input ng-disabled="isSlotPassed[timeFrame]" type="checkbox" ng-if="slotFree(room, timeFrame)" ng-model="checkBoxes[activeDate.toLocaleString() + ',' + room.r_id + ',' + timeFrame]">
+            <td class="hidden-xs">{{slotAndRoomToTime(timeFrame)}}</td>
+            <td ng-repeat="room in rooms" data-title="{{room.r_name}} @ {{slotAndRoomToTime(timeFrame)}}">
+                <md-checkbox class="md-primary" ng-disabled="isSlotPassed[timeFrame]" ng-if="slotFree(room, timeFrame)" ng-model="checkBoxes[activeDate.toLocaleString() + ',' + room.r_id + ',' + timeFrame]" aria-label="Hello"></md-checkbox>
                 <span ng-if="!slotFree(room, timeFrame)"><span ng-repeat="user in getUserName(room, timeFrame)">{{user}}<br> </span></span>
             </td>
         </tr>
         </tbody>
     </table>
+    <ul class="nav nav-pills nav-justified hidden-sm visible-xs">
+        <li ng-repeat="date in afterCurrent" ng-class="{active : selected(date), disabled : datePass(date)}">
+            <a ng-click="selectDate(date)">{{date.format('DD-MM-YYYY')}}</a>
+        </li>
+    </ul>
     <div class="row" style="text-align: center;">
-        <button style="margin:auto; padding: 10px 70px; " class="btn btn-primary" ng-click="sendSlots()">Submit</button>
+        <md-button class="md-raised md-primary" ng-disabled="me.orders < 1" ng-click="sendSlots()">Submit</md-button>
     </div>
 </div>

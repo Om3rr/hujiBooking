@@ -9,10 +9,8 @@
     <title>CS room reservation</title>
 </head>
 <body>
-<div ng-controller="tableCtrl">
-    <%-include friends.ejs%>
-    <%-include spinner.ejs%>
-    <%-include table.ejs%>
+<div ng-controller=<%= controller %>>
+    <%- include(page) %>
 </div>
 </body>
 <%-include scripts.ejs%>

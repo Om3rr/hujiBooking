@@ -4,10 +4,9 @@ var dbAdapter = require('../dbAdapter.js');
 var db = dbAdapter.db;
 
 router.use('/', function(req,res,next){
-    if(req.userData){
+    if(req.userData && req.userData.u_active === 1){
         next();
     } else {
-        console.log("Redirect");
         res.status(302).header({"Location" : "/signin"}).send();
     }
 });

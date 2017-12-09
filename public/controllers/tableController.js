@@ -3,9 +3,8 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
     $scope.init = function () {
         $scope.checkBoxes = {};
         $scope.activeDate = getCurrentDay();
-        Promise.all([$scope.getRooms(), $scope.getSlots($scope.activeDate), $scope.helloServer()]).then(function (resp) {
+        Promise.all([$scope.getRooms(), $scope.helloServer()]).then(function (resp) {
             $scope.rooms = resp[0].data;
-            $scope.slots = resp[1].data;
             $scope.maxFrame = $scope.rooms.map(function (room) {
                 return room.r_slots
             }).reduce(function (a, b) {
@@ -14,12 +13,11 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
             $scope.getThisWeekDates();
 
             $scope.marked = [];
-            $scope.collabs = resp[2].data.give;
-            $scope.friends = resp[2].data.take;
+            $scope.collabs = resp[1].data.give;
+            $scope.friends = resp[1].data.take;
+            $scope.me = resp[1].data.me;
             $scope.participants = {};
-            $scope.initPassSlots();
-            $scope.isLoading = false;
-            $scope.$apply();
+            $scope.selectDate($scope.activeDate);
         });
     };
 
@@ -119,8 +117,9 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
                 $scope.$apply();
             }, 1000)
         });
+        $scope.beforeCurrent = $scope.dates.filter(function(d){return d <= $scope.activeDate});
+        $scope.afterCurrent = $scope.dates.filter(function(d){return d > $scope.activeDate});
         $scope.initPassSlots();
-        console.log($scope.isSlotPassed);
 
     };
 
@@ -140,6 +139,7 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
     };
 
     $scope.sendSlots = function () {
+        $scope.isLoading = true;
         var friends = [];
         angular.forEach($scope.participants, function (v, k) {
             if (!v) {
@@ -153,15 +153,33 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
                 return;
             }
             k = k.split(',');
-            console.log(k);
             let date = moment(k[0]);
             let room_id = parseInt(k[1]);
             let slot = parseInt(k[2]);
-            mcboomy.push($scope.postSlot(room_id, date, slot, friends));
+            mcboomy.push([room_id, date, slot, friends]);
         });
-        Promise.all(mcboomy).then(function () {
+        var promises = [];
+        mcboomy.forEach(function(l){
+            console.log(l);
+           promises.push($scope.postSlot(l[0], moment(l[1]), l[2], l[3], mcboomy.length))
+        });
+        Promise.all(promises).then(function () {
             $scope.checkBoxes = {};
-            $scope.selectDate($scope.activeDate)
+            $scope.participants = {};
+            $scope.selectDate($scope.activeDate);
+            $scope.refreshHello();
+            $scope.isLoading = false;
+        }).catch(function(err){
+            $scope.errorAlert("Error", err.data);
+            $scope.isLoading = false;
+        })
+    };
+
+    $scope.refreshHello = function(){
+        $scope.helloServer().then(function(resp){
+            $scope.collabs = resp.data.give;
+            $scope.friends = resp.data.take;
+            $scope.me = resp.data.me;
         })
     };
 
@@ -188,7 +206,8 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
     };
 
     setInterval(function () {
-        console.log($scope.isSlotPassed);
+        console.log($scope.beforeCurrent);
+        console.log($scope.afterCurrent);
     }, 1000);
 
     $scope.init();

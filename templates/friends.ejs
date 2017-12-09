@@ -46,8 +46,7 @@
                 <ul id="sortable" class="list-unstyled">
                     <li class="ui-state-default" ng-repeat="collab in collabs">
                         <div class="checkbox">
-                            <label>
-                                <input type="checkbox" ng-model="participants[collab.u_id]"/>{{collab.u_fullname}} ({{collab.orders}} hours left)</label>
+                            <md-checkbox class="md-primary" ng-disabled="collab.orders < 1" ng-model="participants[collab.u_id]" aria-label="{{collab.u_fullname}}">{{collab.u_fullname}} ({{collab.orders}} hours left)</md-checkbox>
                         </div>
                     </li>
                 </ul>
@@ -64,7 +63,7 @@
                     </div>
                 </div>
                 <ul id="done-items" class="list-unstyled">
-                    <li ng-repeat="friend in friends">{{friend}} <button class="remove-item btn btn-default btn-xs pull-right" ng-click="removeFriend(friend)"><span class="glyphicon glyphicon-remove"></span></button></li>
+                    <li ng-repeat="friend in friends">{{friend.u_fullname}} <button class="remove-item btn btn-default btn-xs pull-right" ng-click="removeFriend(friend)"><span class="glyphicon glyphicon-remove"></span></button></li>
                 </ul>
             </div>
         </div>

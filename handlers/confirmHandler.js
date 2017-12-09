@@ -6,8 +6,9 @@ var mailer = require('../common/mailer');
 var hasher = require('../common/passHasher').hash;
 
 router.post('/login', function(req,res){
-   var uName = req.query['user'];
-   var uPass = hasher(req.query['pass']);
+   var uName = req.body['user'];
+   var uPass = hasher(req.body['pass']);
+   console.log(uName);
    db.all("SELECT u_reg_code, u_pass FROM users WHERE u_active = 1 AND u_mail LIKE ?", [uName]).then(function(results){
        if(results.length === 0){
            sendError(res, '', 'Cant find this user..');

@@ -22,12 +22,13 @@ router.post('/',function post(req,res){
     var date = req.body.date;
     var room = req.body.room;
     var users = req.body.users;
-    if (slot == null || date == null || !dateHelper.isValidDate(date) || room == null || users.length < constants.USERS_LIMIT_PER_ROOM) {
+    var overall = req.body.overall;
+    if (slot == null || overall == null || date == null || !dateHelper.isValidDate(date) || room == null || users.length < constants.USERS_LIMIT_PER_ROOM || overall < 1) {
         res.status(404);
-        res.send("?");
+        res.send("Params are missing..");
         return;
     }
-    slotValidator(date,slot,room,users,req.userData,res);
+    slotValidator(date,slot,room,users,req.userData,res, overall);
 
 });
 
@@ -46,8 +47,11 @@ function slotIsFree(date,slot,room){
 function isUsersCollab(take, give){
     return new Promise(function (res,err) {
         db.all("SELECT 1 from collab where c_give = ? AND c_take = ?", [give, take]).then(function(resp){
+            if(take === give){
+                res()
+            }
             if(resp.length === 0){
-                err()
+                err("User number "+take+" and user number "+give+" are not collaborators.")
             } else{
                 res()
             }
@@ -55,14 +59,14 @@ function isUsersCollab(take, give){
     })
 }
 
-function isUserEligable(userId){
+function isUserEligable(userId, overall){
     return new Promise(function (res,err) {
         db.all("SELECT c FROM userbookingcounts WHERE id = ?", [userId]).then(function(resp){
             if(resp.length===0){
                 err()
             } else{
-                if(resp[0].c >= constants.HOURS_LIMIT_PER_USER){
-                    err()
+                if(resp[0].c + overall > constants.HOURS_LIMIT_PER_USER){
+                    err('User '+userId+' got no more hours..');
                 } else{
                     res()
                 }
@@ -84,18 +88,23 @@ function insertNewSlot(date,slot,room,users,me){
     })
 }
 
-function slotValidator(date,slot,room,users,me, res){
+function slotValidator(date,slot,room,users,me,res, overall){
     var promises = [];
     promises.push(slotIsFree(date,slot,room));
     users.forEach(function(u){
-        promises.push(isUserEligable(u));
+        promises.push(isUserEligable(u, overall));
         promises.push(isUsersCollab(me.u_id, u));
     });
+    promises.push(isUserEligable(me.u_id, overall));
     Promise.all(promises).then(function(){
         insertNewSlot(date,slot,room,users,me).then(function(resp){
             res.send();
+        }).catch(function(err){
+            res.status(400).send(err);
         });
-    })
+    }).catch(function(err){
+        res.status(400).send(err);
+    });
 }
 
 function verifyUserAndQuery(u, myParams){

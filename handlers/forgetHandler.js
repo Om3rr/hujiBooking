@@ -8,7 +8,7 @@ var hasher = require('../common/passHasher').hash;
 
 // send mail with forget link
 router.post('/:user', function(req,res){
-    var user = req.param('user');
+    var user = req.params['user'] ;
     db.all("SELECT u_reg_code FROM users WHERE u_mail = ? AND u_active = 1",[user]).then(function(result){
         if(result.length === 0){
             res.status(400).send();
@@ -21,7 +21,7 @@ router.post('/:user', function(req,res){
 });
 
 router.get('/reset/:regcode', function(req,res){
-    var regCode = req.param("regcode");
+    var regCode = req.params["regcode"];
     res.cookie("userCode", regCode);
     res.render('signup.ejs',{page : 'forget.ejs'});
 });

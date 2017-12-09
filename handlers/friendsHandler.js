@@ -5,7 +5,7 @@ var db = dbAdapter.db;
 
 
 router.post('/delete/:uid',function (req, res, next) {
-    var friendsId = req.param('uid');
+    var friendsId = req.params['uid'];
     var me = req.userData;
     db.run('DELETE FROM collab WHERE c_take = ? AND c_give = ?', [friendsId, me.u_id]).then(function (row) {
         res.status(200).send("All good :D");

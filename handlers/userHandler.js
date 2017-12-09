@@ -21,8 +21,4 @@ router.use('/', function(req,res,next){
     })
 });
 
-function redirect(res){
-    res.status(302).header({"Location" : "/signin"}).send();
-}
-
 module.exports = router;

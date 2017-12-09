@@ -3,7 +3,10 @@ var router = express.Router();
 
 
 
-router.get('/', function(req,res){
+router.get('/', function(req,res, next){
+    if(req.userData){
+        next();
+    }
     res.render("signup.ejs", {page : 'signupform'})
 });
 

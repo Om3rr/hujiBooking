@@ -25,7 +25,7 @@ router.post('/login', function(req,res){
 });
 
 router.get('/:confirmCode', function (req, res) {
-    var code = req.param('confirmCode');
+    var code = req.params['confirmCode'];
     db.all('SELECT u_id, u_active FROM users where u_reg_code = ?',[code]).then(function(resp){
         if(resp.length === 0){
             redirect(res,'','');

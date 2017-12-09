@@ -33,7 +33,6 @@ app.use(helmet());
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/bower_components'));
 app.use(userHandler);
-app.use('/signup', signupHandler);
 app.use('/signin', signupHandler);
 app.use('/confirm', confirmHandler);
 app.use('/forget', forgetHandler);

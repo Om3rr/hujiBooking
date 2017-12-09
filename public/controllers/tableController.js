@@ -2,7 +2,8 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
     $scope.isLoading = true;
     $scope.init = function () {
         $scope.checkBoxes = {};
-        Promise.all([$scope.getRooms(), $scope.getSlots(), $scope.helloServer()]).then(function (resp) {
+        $scope.activeDate = getCurrentDay();
+        Promise.all([$scope.getRooms(), $scope.getSlots($scope.activeDate), $scope.helloServer()]).then(function (resp) {
             $scope.rooms = resp[0].data;
             $scope.slots = resp[1].data;
             $scope.maxFrame = $scope.rooms.map(function (room) {
@@ -11,7 +12,7 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
                 return Math.max(a, b);
             });
             $scope.getThisWeekDates();
-            $scope.activeDate = moment();
+
             $scope.marked = [];
             $scope.collabs = resp[2].data.give;
             $scope.friends = resp[2].data.take;
@@ -21,6 +22,14 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
             $scope.$apply();
         });
     };
+
+    function getCurrentDay(){
+        if(moment().day() > 4){
+            console.log(moment().add(7 - moment().day(), 'days'));
+            return moment().add(7 - moment().day(), 'days');
+        }
+        return moment();
+    }
 
     $scope.getNumber = function (num) {
         arr = [];

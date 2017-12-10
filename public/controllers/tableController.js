@@ -3,6 +3,7 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
     $scope.init = function () {
         $scope.checkBoxes = {};
         $scope.activeDate = getCurrentDay();
+        $scope.activeTab= $scope.activeDate.format('YYYY-MM-DD');
         Promise.all([$scope.getRooms(), $scope.helloServer()]).then(function (resp) {
             $scope.rooms = resp[0].data;
             $scope.maxFrame = $scope.rooms.map(function (room) {

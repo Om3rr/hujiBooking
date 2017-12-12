@@ -7,7 +7,7 @@
                         <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
                              alt="">
                         <form class="form-signin" name="loginForm" id="logForm">
-                            <input type="text" pattern="^[A-Za-z0-9-_]+$" name="user" class="form-control" placeholder="Username" required autofocus ng-model="signin.user">
+                            <input type="text" pattern="^[A-Za-z0-9-_\.]+$" name="user" class="form-control" placeholder="Username" required autofocus ng-model="signin.user">
                             <label class="indicator" ng-class="{'invalid' : loginForm.user.$invalid}">Invalid Username</label>
                             <input type="password" pattern="^(?=\S*[^\s])\S{4,}$" name="pass" class="form-control" placeholder="Password" required ng-model="signin.pass">
                             <label class="indicator" ng-class="{'invalid' : loginForm.pass.$invalid}">Invalid Password</label>

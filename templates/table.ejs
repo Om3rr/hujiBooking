@@ -9,7 +9,7 @@
             <a ng-click="selectDate(date)">{{date.format('DD-MM-YYYY')}}</a>
         </li>
     </ul>
-    <table class="table table-hover table-responsive cool-box" style="overflow-x: hidden" id="no-more-tables">
+    <table class="table table-hover table-responsive cool-box hidden-xs" style="overflow-x: hidden" id="no-more-tables">
         <thead>
         <tr>
             <th>Slot / Room</th>
@@ -17,10 +17,21 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="timeFrame in getNumber(maxFrame)">
-            <td class="hidden-xs">{{slotAndRoomToTime(timeFrame)}}</td>
+        <tr ng-repeat="timeFrame in getNumber(maxFrame)" ng-class="{'disabled' : isSlotPassed[timeFrame]}">
+            <td>{{slotAndRoomToTime(timeFrame)}}</td>
             <td ng-repeat="room in rooms" data-title="{{room.r_name}} @ {{slotAndRoomToTime(timeFrame)}}">
                 <md-checkbox class="md-primary" ng-disabled="isSlotPassed[timeFrame]" ng-if="slotFree(room, timeFrame)" ng-model="checkBoxes[activeDate.toLocaleString() + ',' + room.r_id + ',' + timeFrame]" aria-label="Hello"></md-checkbox>
+                <span ng-if="!slotFree(room, timeFrame)"><span ng-repeat="user in getUserName(room, timeFrame)">{{user}}<br> </span></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="table table-hover table-responsive cool-box visible-xs hidden-sm" id="no-more-tables">
+        <!--timeFrame in getNumber(maxFrame)-->
+        <tbody>
+        <tr ng-repeat="room in rooms" data-title="{{room.r_name}}">
+            <td ng-repeat="timeFrame in getNumber(maxFrame)" data-title="{{room.r_name}} @ {{slotAndRoomToTime(timeFrame)}}" ng-click="mark(activeDate, room, timeFrame);" ng-class="{'disabled' : isSlotPassed[timeFrame]}">
+                <md-checkbox ng-click="mark(activeDate, room, timeFrame);" class="md-primary" ng-disabled="isSlotPassed[timeFrame]" ng-if="slotFree(room, timeFrame)" ng-model="checkBoxes[activeDate.toLocaleString() + ',' + room.r_id + ',' + timeFrame]" aria-label="Hello"></md-checkbox>
                 <span ng-if="!slotFree(room, timeFrame)"><span ng-repeat="user in getUserName(room, timeFrame)">{{user}}<br> </span></span>
             </td>
         </tr>

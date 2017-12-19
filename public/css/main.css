@@ -27,3 +27,31 @@ div, table, ul, li{
 .scroll-viewA{
     height: 275px !important;
 }
+
+.help-button{
+    position: absolute;top: 10px;right: 18%;padding:  0;border-radius: 30px;
+}
+.bug-button{
+    position: absolute;top: 10px;left: 18%;padding:  0;border-radius: 30px;
+}
+.pull-right{
+    margin-right: 10px;
+}
+@media(max-width: 700px){
+    .help-button{
+        top: 75px;
+        font-size: 10px;
+        line-height: 20px;
+        min-height: 30px;
+        min-width: 50px;
+        right: 30%;
+    }
+    .bug-button{
+        top: 75px;
+        font-size: 10px;
+        line-height: 20px;
+        min-height: 30px;
+        min-width: 50px;
+        left: 30%;
+    }
+}

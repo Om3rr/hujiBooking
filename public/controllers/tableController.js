@@ -2,8 +2,6 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
     $scope.isLoading = true;
     $scope.init = function () {
         $scope.checkBoxes = {};
-        $scope.activeDate = getCurrentDay();
-        $scope.activeTab= $scope.activeDate.format('YYYY-MM-DD');
         Promise.all([$scope.getRooms(), $scope.helloServer()]).then(function (resp) {
             $scope.rooms = resp[0].data;
             $scope.maxFrame = $scope.rooms.map(function (room) {
@@ -11,6 +9,13 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
             }).reduce(function (a, b) {
                 return Math.max(a, b);
             });
+            $scope.maxEnd = $scope.rooms.map(function (room) {
+                return room.r_end
+            }).reduce(function (a, b) {
+                return Math.max(a, b);
+            });
+            $scope.activeDate = getCurrentDay();
+            $scope.activeTab = $scope.activeDate.format('YYYY-MM-DD');
             $scope.getThisWeekDates();
 
             $scope.marked = [];
@@ -23,11 +28,16 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
     };
 
     function getCurrentDay(){
-        if(moment().day() > 4){
-            console.log(moment().add(7 - moment().day(), 'days'));
-            return moment().add(7 - moment().day(), 'days');
+        var today = moment();
+        console.log($scope.maxEnd);
+        if(today.hour() > $scope.maxEnd){
+            today = today.add(1, 'days');
         }
-        return moment();
+        if(today.day() > 4){
+            console.log(today.add(7 - moment().day(), 'days'));
+            return today.add(7 - moment().day(), 'days');
+        }
+        return today;
     }
 
     $scope.getNumber = function (num) {
@@ -150,7 +160,60 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
         $scope.errorAlert("Help", a);
     };
 
+    $scope.bugReport = function(){
+        $scope.errorAlert("Bug report", "To submit bug go into this google doc and describe the bug as possible");
+    };
+    function find(collabId){
+        var idx = $scope.collabs.map(function(c){return c.u_id;}).indexOf(parseInt(collabId));
+        if(idx < 0){
+            return undefined;
+        }
+        return $scope.collabs[idx];
+    }
+    function validateRequest(){
+        var friends = [];
+        var friend;
+        var slots = [];
+        var error = false;
+        angular.forEach($scope.checkBoxes, function (v, k) {
+            if (!v) {
+                return;
+            }
+            k = k.split(',');
+            let date = moment(k[0]);
+            let room_id = parseInt(k[1]);
+            let slot = parseInt(k[2]);
+            slots.push([room_id, date, slot, friends]);
+        });
+        angular.forEach($scope.participants, function (v, k) {
+            if (!v) {
+                return;
+            }
+            friend = find(k);
+            friends.push(friend);
+        });
+        if(friends.length < 3){
+            $scope.errorAlert("You got no enough friends to book this room", "This room require at least 4 people, right now you are only "+(friends.length+1));
+            return false;
+        }
+        if($scope.me.orders < slots.length){
+            $scope.errorAlert("You got no enough orders", "You got only " + $scope.me.orders + " hours left");
+            return false;
+        }
+        for(var i=0;i<friends.length;i++) {
+            friend = friends[i];
+            if (friend.orders < slots.length) {
+                $scope.errorAlert("Your friend got no enough orders", "Your friend " + friend.u_fullname + " got only " + friend.orders + " hours left");
+                return false;
+            }
+        }
+
+    }
+
     $scope.sendSlots = function () {
+        if(!validateRequest()){
+            return;
+        }
         $scope.isLoading = true;
         var friends = [];
         angular.forEach($scope.participants, function (v, k) {
@@ -217,10 +280,20 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
         });
     };
 
-    setInterval(function () {
-        console.log($scope.beforeCurrent);
-        console.log($scope.afterCurrent);
-    }, 1000);
+    $scope.mark = function(activeDate, room, timeFrame){
+        if(!$scope.slotFree(room, timeFrame)){
+            console.log('Scope not free');
+            return;
+        }
+        if($scope.isSlotPassed[timeFrame]){
+            console.log("Scope passed");
+            return;
+        }
+        var checkBoxLocation = activeDate.toLocaleString() + ',' + room.r_id + ',' + timeFrame;
+        console.log(checkBoxLocation, 'before', $scope.checkBoxes[checkBoxLocation]);
+        $scope.checkBoxes[checkBoxLocation] = !$scope.checkBoxes[checkBoxLocation];
+        console.log($scope.checkBoxes[checkBoxLocation], 'after');
+    };
 
     $scope.init();
 }]);

@@ -41,9 +41,9 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <div class="todolist not-done">
-                <h1>Study with friends</h1>
-                <ul id="sortable" class="list-unstyled">
+            <div class="todolist not-done cool-box">
+                <h1>Choose study buddies</h1>
+                <ul id="sortable" class="list-unstyled scroll-view scroll-viewA">
                     <li class="ui-state-default" ng-repeat="collab in collabs">
                         <div class="checkbox">
                             <md-checkbox class="md-primary" ng-disabled="collab.orders < 1" ng-model="participants[collab.u_id]" aria-label="{{collab.u_fullname}}">{{collab.u_fullname}} ({{collab.orders}} hours left)</md-checkbox>
@@ -53,8 +53,8 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="todolist">
-                <h1>Have my permission</h1>
+            <div class="todolist cool-box col-md-12">
+                <h1>Give permission</h1>
                 <div class="form-group">
                     <label for="validate-text">Add a friend</label>
                     <div class="input-group">
@@ -62,7 +62,7 @@
                         <span class="input-group-addon danger"><span class="glyphicon glyphicon-ok"></span></span>
                     </div>
                 </div>
-                <ul id="done-items" class="list-unstyled">
+                <ul id="done-items" class="list-unstyled scroll-view">
                     <li ng-repeat="friend in friends">{{friend.u_fullname}} <button class="remove-item btn btn-default btn-xs pull-right" ng-click="removeFriend(friend)"><span class="glyphicon glyphicon-remove"></span></button></li>
                 </ul>
             </div>

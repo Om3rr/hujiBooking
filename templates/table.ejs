@@ -1,5 +1,5 @@
-<div class="container">
-    <ul class="nav nav-pills nav-justified visible-sm visible-md visible-lg">
+<div class="container fix-table">
+    <ul class="nav nav-pills nav-justified visible-sm visible-md visible-lg" style="margin-left: 13px; box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16);">
         <li ng-repeat="date in dates" ng-class="{active : selected(date), disabled : datePass(date)}">
             <a ng-click="selectDate(date)">{{date.format('DD-MM-YYYY')}}</a>
         </li>
@@ -9,7 +9,7 @@
             <a ng-click="selectDate(date)">{{date.format('DD-MM-YYYY')}}</a>
         </li>
     </ul>
-    <table class="table table-hover table-responsive" style="overflow-x: hidden" id="no-more-tables">
+    <table class="table table-hover table-responsive cool-box" style="overflow-x: hidden" id="no-more-tables">
         <thead>
         <tr>
             <th>Slot / Room</th>
@@ -32,6 +32,6 @@
         </li>
     </ul>
     <div class="row" style="text-align: center;">
-        <md-button class="md-raised md-primary" ng-disabled="me.orders < 1" ng-click="sendSlots()">Submit</md-button>
+        <md-button class="md-raised md-primary" style="background-color:#337ab7; border-radius:5px;" ng-disabled="me.orders < 1" ng-click="sendSlots()">Submit</md-button>
     </div>
 </div>

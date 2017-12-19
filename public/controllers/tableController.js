@@ -161,7 +161,7 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
     };
 
     $scope.bugReport = function(){
-        $scope.errorAlert("Bug report", "To submit bug go into this google doc and describe the bug as possible");
+        $scope.errorAlert("Bug report", "To submit bug go into this google doc and describe the bug as possible\nhttps://docs.google.com/document/d/1DIuaB4Nj9WhdGPPKf1rZxpfSR-5hidodQm5U0iH9rqE/edit");
     };
     function find(collabId){
         var idx = $scope.collabs.map(function(c){return c.u_id;}).indexOf(parseInt(collabId));

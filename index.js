@@ -45,6 +45,10 @@ app.get('/', function (request, response) {
     response.render("index.ejs", {page : 'main.ejs', controller : 'tableCtrl'})
 });
 
+app.get("/riddle", function(req,res){
+    res.send("hello, im your clue.")
+});
+
 
 app.listen(app.get('port'), function () {
     console.log("Node app is running at localhost:" + app.get('port'))

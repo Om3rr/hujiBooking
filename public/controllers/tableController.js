@@ -156,12 +156,12 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
             "To have friend in you friend list so you can reserve a room together, you need to get their approval to use their name, each friend need to and you cs username to in his consol.\n" +
             "After you friend will add you in his consol his name will appear in you consol, and you can close a room together\n" +
             "Be aware, that when you close a room with your friends both of you are losing from your weekly time slots.\n" +
-            "If a friend of you are abusing you time slots, you can remove him from your approval list, and he will not be able to reserve a room with you.\n"
+            "If a friend of you are abusing you time slots, you can remove him from your approval list, and he will not be able to reserve a room with you.\n";
         $scope.errorAlert("Help", a);
     };
 
     $scope.bugReport = function(){
-        $scope.errorAlert("Bug report", "To submit bug go into this google doc and describe the bug as possible\nhttps://docs.google.com/document/d/1DIuaB4Nj9WhdGPPKf1rZxpfSR-5hidodQm5U0iH9rqE/edit");
+        $scope.errorAlert("Bug report", "To submit bug go into this google doc and describe the bug as possible\nhttps://github.com/Omertorren/bookingSystem");
     };
     function find(collabId){
         var idx = $scope.collabs.map(function(c){return c.u_id;}).indexOf(parseInt(collabId));

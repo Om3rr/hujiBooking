@@ -32,6 +32,9 @@ app.set('views', __dirname + '/templates');
 app.use(helmet());
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/bower_components'));
+app.get("/riddle", function(req,res){
+    res.send("hello, im your clue.")
+});
 app.use(userHandler);
 app.use('/signin', signupHandler);
 app.use('/confirm', confirmHandler);
@@ -43,10 +46,6 @@ app.use('/hello', helloHandler);
 app.use('/rooms', roomsHandler);
 app.get('/', function (request, response) {
     response.render("index.ejs", {page : 'main.ejs', controller : 'tableCtrl'})
-});
-
-app.get("/riddle", function(req,res){
-    res.send("hello, im your clue.")
 });
 
 

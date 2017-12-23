@@ -29,13 +29,11 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
 
     function getCurrentDay(){
         var today = moment();
-        console.log($scope.maxEnd);
         if(today.hour() > $scope.maxEnd){
             today = today.add(1, 'days');
         }
         if(today.day() > 4){
-            console.log(today.add(7 - moment().day(), 'days'));
-            return today.add(7 - moment().day(), 'days');
+            return today.add(7 - today.day(), 'days');
         }
         return today;
     }

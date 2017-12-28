@@ -17,7 +17,6 @@ app.run(function ($rootScope, $mdDialog) {
                 .content(msg)
                 .ariaLabel('Alert Alert Alert')
                 .ok('Got it!')
-                .targetEvent(ev)
         ).finally(callback);
     };
 

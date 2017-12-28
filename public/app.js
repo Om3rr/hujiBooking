@@ -4,7 +4,7 @@ $http = angular.injector(["ng"]).get("$http");
 
 app.run(function ($rootScope, $mdDialog) {
 
-    $rootScope.errorAlert = function(title, msg, ev){
+    $rootScope.errorAlert = function(title, msg, callback){
         if(!msg){
             msg = title;
             title = 'Something Happend :D'

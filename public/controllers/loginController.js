@@ -19,8 +19,8 @@ app.controller('loginCtrl', ['$scope', function ($scope) {
             alert("One of the fields are invalid, please fix it")
         } else {
             $scope.createNewAccount($scope.register).then(
-                function(){
-                    $scope.errorAlert("Success", "Confirmation mail was sent to your huji mail, please confirm your account")
+                function(resp){
+                    $scope.errorAlert("Success", "Confirmation mail was sent to your huji mail, please confirm your account", function(){redirect(resp)})
                 }
             ).catch(onErr)
         }

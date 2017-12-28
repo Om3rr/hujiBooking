@@ -1,4 +1,4 @@
-# node-js-sample :D
+# node-js-sample :D.
 
 A barebones Node.js app using [Express 4](http://expressjs.com/).
 

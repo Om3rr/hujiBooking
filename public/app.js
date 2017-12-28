@@ -5,7 +5,6 @@ $http = angular.injector(["ng"]).get("$http");
 app.run(function ($rootScope, $mdDialog) {
 
     $rootScope.errorAlert = function(title, msg, ev){
-        console.log("ERR ALERT");
         if(!msg){
             msg = title;
             title = 'Something Happend :D'

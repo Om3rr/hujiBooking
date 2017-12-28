@@ -18,7 +18,11 @@ app.controller('loginCtrl', ['$scope', function ($scope) {
         if ($scope.signForm.$invalid) {
             alert("One of the fields are invalid, please fix it")
         } else {
-            $scope.createNewAccount($scope.register).then(redirect).catch(onErr)
+            $scope.createNewAccount($scope.register).then(
+                function(){
+                    $scope.errorAlert("Success", "Confirmation mail was sent to your huji mail, please confirm your account")
+                }
+            ).catch(onErr)
         }
     };
     $scope.forgot = {};

@@ -1,7 +1,9 @@
 app.controller('loginCtrl', ['$scope', function ($scope) {
     $scope.reseted = true;
+    $scope.clicked = false;
     $scope.signin = {};
     $scope.sign = function () {
+        $scope.clicked = true;
         if ($scope.loginForm.$invalid) {
             $scope.errorAlert("One of the fields are invalid, please fix it")
         } else {
@@ -15,8 +17,9 @@ app.controller('loginCtrl', ['$scope', function ($scope) {
     //     console.log($scope.signForm);
     // }, 500);
     $scope.reg = function () {
+        $scope.clicked = true;
         if ($scope.signForm.$invalid) {
-            alert("One of the fields are invalid, please fix it")
+            $scope.errorAlert('Error', "One of the fields are invalid, please fix it")
         } else {
             $scope.createNewAccount($scope.register).then(
                 function(resp){
@@ -36,7 +39,6 @@ app.controller('loginCtrl', ['$scope', function ($scope) {
 
     $scope.resetPass = function () {
         if ($scope.resetForm.$invalid) {
-            console.log($scope.resetForm);
             $scope.errorAlert("One of the fields are invalid, please fix it")
         } else {
             $scope.resetApi($scope.forgot.username).then(function () {

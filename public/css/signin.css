@@ -86,7 +86,7 @@ body .login-page{
 }
 
 .form-control.ng-invalid{
-    border: red 1px solid;
+    /*border: red 1px solid;*/
 }
 
 .indicator{

@@ -205,6 +205,7 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
                 return false;
             }
         }
+        return true;
 
     }
 
@@ -220,12 +221,14 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
             }
             friends.push(parseInt(k));
         });
+        console.log(friends);
         var mcboomy = [];
         angular.forEach($scope.checkBoxes, function (v, k) {
             if (!v) {
                 return;
             }
             k = k.split(',');
+            console.log(k);
             let date = moment(k[0]);
             let room_id = parseInt(k[1]);
             let slot = parseInt(k[2]);

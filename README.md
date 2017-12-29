@@ -1,38 +1,43 @@
-# node-js-sample :D.
+# bookingSystem
 
-A barebones Node.js app using [Express 4](http://expressjs.com/).
+NodeJs application + angularJS frontend which enable us to create easy-to-deploy booking system.
 
-## Running Locally
+## Setup
 
-Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
+in order to use the system you have to deploy a mysql server and import the tables from the template "template.mysql" it will create all the struct of your db.
 
-```sh
-git clone git@github.com:heroku/node-js-sample.git # or clone your own fork
-cd node-js-sample
-npm install
-npm start
-```
+### Running Locally
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+Make sure you have npm and bower installed, cd into the root directory run ```npm install``` (for the backend libraries) and ```bower install``` (for the frontend libraries)
+open http://localhost:5000 to see it
 
-## Deploying to Heroku
+### heroku deploy
 
-```
-heroku create
-git push heroku master
-heroku open
-```
+this application is heroku-ready-to-deploy system :) you cant just plugit to any databae
+and push it to a random heroku server and it will work!
 
-Alternatively, you can deploy your own copy of the app using the web-based flow:
+## Structure
 
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+this code contain the frontend and the backed of this project so this is the code structure
+### Backend
+
+- handlers (files that handle user`s request) are in "handlers" and pretty much self explanatory
+- index.js responsible to run the whole thing
+- dbAdapter.js responsible to interact with the database.
+- /common folder contain helpers to the project.
+
+### Frontend
+
+- /templates contain all the pre-rendered html files.
+- /public contain all the js\css\img files.
+- there`s two controllers files (table, login) and app.js who responsible for the api calls
+
+
+
+## Contribute
+
+there`s plenty of things to do, feel free to open issues, feature requests, fork the current directory and everything else :)
 
 ## Documentation
 
-For more information about using Node.js on Heroku, see these Dev Center articles:
-
-- [10 Habits of a Happy Node Hacker](https://blog.heroku.com/archives/2014/3/11/node-habits)
-- [Getting Started with Node.js on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
-- [Heroku Node.js Support](https://devcenter.heroku.com/articles/nodejs-support)
-- [Node.js on Heroku](https://devcenter.heroku.com/categories/nodejs)
-- [Using WebSockets on Heroku with Node.js](https://devcenter.heroku.com/articles/node-websockets)
+we havent documented this system yet, if you want to help and do so, you are more than welcome to help us with documentation.

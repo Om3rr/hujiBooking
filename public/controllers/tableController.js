@@ -150,7 +150,7 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
     $scope.helpMe = function(){
         console.log("Hello");
         var a = "Welcome to cs huji reservation rooms,\n" +
-            "To reserve a room in the system you need x friends with available time slots to successfully reserve a room for you.\n" +
+            "To reserve a room in the system you need 3 friends with available time slots to successfully reserve a room for you.\n" +
             "To have friend in you friend list so you can reserve a room together, you need to get their approval to use their name, each friend need to and you cs username to in his consol.\n" +
             "After you friend will add you in his consol his name will appear in you consol, and you can close a room together\n" +
             "Be aware, that when you close a room with your friends both of you are losing from your weekly time slots.\n" +
@@ -159,7 +159,7 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
     };
 
     $scope.bugReport = function(){
-        $scope.errorAlert("Bug report", "To submit bug go into this google doc and describe the bug as possible\nhttps://github.com/Omertorren/bookingSystem");
+        $scope.errorAlert("Bug report", "To submit bug go into this google doc and describe the bug as possible\nhttps://github.com/Omertorren/hujiBooking");
     };
     function find(collabId){
         var idx = $scope.collabs.map(function(c){return c.u_id;}).indexOf(parseInt(collabId));
@@ -283,17 +283,13 @@ app.controller('tableCtrl', ['$scope', function ($scope) {
 
     $scope.mark = function(activeDate, room, timeFrame){
         if(!$scope.slotFree(room, timeFrame)){
-            console.log('Scope not free');
             return;
         }
         if($scope.isSlotPassed[timeFrame]){
-            console.log("Scope passed");
             return;
         }
         var checkBoxLocation = activeDate.toLocaleString() + ',' + room.r_id + ',' + timeFrame;
-        console.log(checkBoxLocation, 'before', $scope.checkBoxes[checkBoxLocation]);
         $scope.checkBoxes[checkBoxLocation] = !$scope.checkBoxes[checkBoxLocation];
-        console.log($scope.checkBoxes[checkBoxLocation], 'after');
     };
 
     $scope.init();
